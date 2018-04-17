@@ -38,16 +38,16 @@ module StrongPassword
       return @chars_array if @chars_array
 
       @chars_array = LOWER_CASE_CHARS
-      @chars_array |= UPPER_CASE_CHARS if mixed_case
-      @chars_array |= NUMERIC if numeric
-      @chars_array |= SPECIAL_CHARS if special_char
+      @chars_array |= UPPER_CASE_CHARS if mixed_case.positive?
+      @chars_array |= NUMERIC if numeric.positive?
+      @chars_array |= SPECIAL_CHARS if special_char.positive?
       @chars_array
     end
 
     def chars_map
       @map ||= {
         all_chars: all_chars,
-        upper_case: UPPER_CASE_CHARS,
+        mixed_case: UPPER_CASE_CHARS,
         numeric: NUMERIC,
         special_char: SPECIAL_CHARS
       }
@@ -56,35 +56,25 @@ module StrongPassword
     def weights_table
       hash = {
         all_chars: all_chars_weight,
-        upper_case: upper_case_char_weight,
-        numeric: numeric_char_weight,
-        special_char: special_char_weight
+        mixed_case: weight_for(:mixed_case),
+        numeric: weight_for(:numeric),
+        special_char: weight_for(:special_char)
       }
       hash.reject! { |_k, v| v == 0 }
       hash
     end
 
     def all_chars_weight
-      1 - upper_case_char_weight - numeric_char_weight - special_char_weight
+      1 - weight_for(:mixed_case) - weight_for(:special_char) - weight_for(:numeric)
     end
 
     def remaining_chars_count
       total_chars - current_chars_count
     end
 
-    def upper_case_char_weight
-      return 0 if mixed_case.zero?
-      (mixed_case.to_f / remaining_chars_count).round(5)
-    end
-
-    def numeric_char_weight
-      return 0 if numeric.zero?
-      (numeric.to_f / remaining_chars_count).round(5)
-    end
-
-    def special_char_weight
-      return 0 if special_char.zero?
-      (special_char.to_f / remaining_chars_count).round(5)
+    def weight_for(char_type)
+      return 0 unless send(char_type).positive?
+      (send(char_type).to_f / remaining_chars_count).round(5)
     end
 
     def weighted_rand(weights = {})
