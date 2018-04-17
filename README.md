@@ -43,6 +43,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/monkeydl/strong-password-generator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
+## Acknowledgement
+
+The algorithm for selecting a weighted random character is shamelessly plagiarised from [here](https://stackoverflow.com/a/23220189)
 
 ## License
 
