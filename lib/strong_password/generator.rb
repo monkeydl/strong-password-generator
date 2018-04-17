@@ -20,7 +20,7 @@ module StrongPassword
       @pwd_string = ''
     end
 
-    def call
+    def executed
       raise 'Invalid password combination: insufficient password length' if total_chars < (mixed_case + numeric + special_char)
       while current_chars_count < total_chars do
         char_type = weighted_rand(weights_table)

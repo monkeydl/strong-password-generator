@@ -1,8 +1,6 @@
 # Strong::Password::Generator
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/strong/password/generator`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Simple gem that helps you create a strong password, as the name suggested.
 
 ## Installation
 
@@ -22,7 +20,18 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Quick and easy way to get you a 8 characters length password with at least:
+- One special character
+- One numeric
+- One uppercase letter
+```
+password = StrongPassword::Generator.new.execute
+```
+Or you can specify the exact combination that you wants
+```
+generator = StrongPassword::Generator.new(mixed_case: 2, numeric: 2, special_char: 2, total_chars: 16)
+password = generator.execute
+``` 
 
 ## Development
 
@@ -32,7 +41,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/strong-password-generator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/monkeydl/strong-password-generator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
